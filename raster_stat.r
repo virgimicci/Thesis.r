@@ -1,3 +1,6 @@
+ # DEM, CHELSA data, maybe Copernicus
+ 
+ 
  setwd("C:/thesis")
  
  library(rgdal)
@@ -7,12 +10,11 @@
  library(exactextractr)
  library(raster)
  
- DEM <- raster(paste0("DEM.tif"))
- islands <- readOGR(paste0("Isole mediterraneo 0.5 Ha.gpkg"))
+DEM <- raster(paste0("DEM.tif"))
+islands <- readOGR(paste0("Isole mediterraneo 0.5 Ha.gpkg"))
  
 islands_dem <- cbind(islands, exact_extract(DEM, islands, c("min","max", "mean", "median"))
 write.csv(islands_dem, file = "DEMstat.csv")
-
 
 # mean annual air temp 1981-2010 bio1 
 # CHELSA_bio1_1981-2010_V.2.1
@@ -22,11 +24,9 @@ write.csv(islands_tmean, file = "mean_t_1981_2010.csv")
 
 # prediction: mean annual air temp 2071-2100 bio1 
 # CHELSA_bio1_2071-2100_gfdl-esm4_ssp585_V.2.1
-
 maat2071_2100 <-raster(paste0("CHELSA_bio1_2071-2100_gfdl-esm4_ssp585_V.2.1.tif"))
 islands_tmeanpred <- cbind(islands, exact_extract(maat2071_2100, islands, c("mean")))
 write.csv(islands_tmeanpred, file = "mean_t_2071_2100.csv")
-
 
 # mean annual prec 1981-2010 bio12
 # CHELSA_bio12_1981-2010_V.2.1

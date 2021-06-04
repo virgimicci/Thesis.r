@@ -10,11 +10,20 @@
  library(exactextractr)
  library(raster)
  
+#DEM SRTM
 DEM <- raster(paste0("DEM.tif"))
-islands <- readOGR(paste0("Isole mediterraneo 0.5 Ha.gpkg"))
+islands <- readOGR(paste0("isole_medit_0.5Ha.gpkg"))
  
-islands_dem <- cbind(islands, exact_extract(DEM, islands, c("min","max", "mean", "median"))
+islands_dem <- cbind(islands, exact_extract(DEM, islands, c("min","max", "mean", "median")))
 write.csv(islands_dem, file = "DEMstat.csv")
+
+#DEM aster
+DEM_aster <- raster(paste0("dem aster.tif"))
+
+islands <- spTransform(islands, CRSobj="+proj=longlat +datum=WGS84 +no_defs")
+islands_demaster <- cbind(islands, exact_extract(DEM_aster, islands, c("min","max", "mean", "median", "quantile"), quantiles= c(0.25, 0.76)))
+
+write.csv(islands_demaster, file = "DEMstataster.csv")
 
 # mean annual air temp 1981-2010 bio1 
 # CHELSA_bio1_1981-2010_V.2.1

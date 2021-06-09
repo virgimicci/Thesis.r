@@ -1,6 +1,5 @@
  # DEM, CHELSA data, maybe Copernicus
  
- 
  setwd("C:/thesis")
  
  library(rgdal)
@@ -105,7 +104,6 @@ coldestquarter_mean_monthly_prec_amount <-  exact_extract(bio19, islands, fun="m
 
 islands_dataset<- cbind(islands, bio1, bio2, bio3, bio4, bio5, bio6, bio7, bio8, bio9, bio10, bio11, bio12, bio13, bio14, bio15, bio16, bio17, bio18, bio19)
 write.csv(islands_tmean, file = "islands_dataset.csv")
-
 
 
 

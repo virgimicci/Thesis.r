@@ -24,6 +24,9 @@ islands_demaster <- cbind(islands, exact_extract(DEM_aster, islands, c("min","ma
 
 write.csv(islands_demaster, file = "DEMstataster.csv")
 
+#### roads 
+islands_roads.gpkg
+
 ### DATI CHELSA 1981-2010 ###
 # bio1 mean annual air temp 
 bio1 <- raster(paste0("CHELSA_bio1_1981-2010_V.2.1.tif"))

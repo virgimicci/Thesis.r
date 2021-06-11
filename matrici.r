@@ -12,4 +12,4 @@ plot(grid)
 coastline <-st_read("coastlines_eurafr.gpkg") #MULTILYNESTRING
 # gia tiene la CRS uglae
 
-dist <- st_distance( coastline, islands)
+dist <- st_distance( coastline, grid)

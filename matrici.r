@@ -29,7 +29,8 @@ min.dist <- apply(dist.df,1, FUN=min)
 
 #### Distance matrix islands
 dist_matrix <- st_distance(islands)
-min_dist <- apply(dist_matrix,1, function (x) min(x[x>0])) # extract the min distance for each island
-islands$nearest_dist <- min_dist  # add the distance calculations to the islands polygons             
-                  
-                  
+min_dist <- apply (dist_matrix, 1, function (x) min(x[x>0]))  # extract the min distance for each island
+islands$nearest_dist <- min_dist  # add the distance calculations to the islands polygons      
+                                      
+#### Ciclo: dist prossima isola più grande
+                   

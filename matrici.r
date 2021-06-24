@@ -1,4 +1,4 @@
-wd<- setwd("C:/Thesis")
+wd <- setwd("C:/Users/micci/Documents/Thesis")
 library(raster)
 library(sf)
 library(dplyr)

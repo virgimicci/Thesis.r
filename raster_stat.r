@@ -38,3 +38,16 @@ island_csv <- cbind(islands, exact_extract(stack_raster, islands,
 
 write.csv(islands_csv, file = "islands_csv.csv")
 
+# Calcolo strade 
+
+library(sf)
+library(dplyr)
+library(rgdal)
+
+str_is_inters <- readOGR("islands_roads_inters.gpkg")
+str_is_inters_df <- as.data.frame(str_is_inters)
+
+street_lenght <- str_is_inters_df %>% 
+  group_by(fid_2) %>%
+  summarise (total_lenght = sum(Shape_Leng, na.rm = TRUE))
+  

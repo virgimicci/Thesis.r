@@ -50,4 +50,13 @@ str_is_inters_df <- as.data.frame(str_is_inters)
 street_lenght <- str_is_inters_df %>% 
   group_by(fid_2) %>%
   summarise (total_lenght = sum(Shape_Leng, na.rm = TRUE))
+
+# OSM
+
+x <- opq(bbox = c(30.9, 36, 36.5, 46.2)) %>% # Mediterraneo
+    add_osm_feature(key = 'highway') %>%
+    osmdata_sf() # non va perchè troppo granade 
   
+x <- opq("Madrid") %>% # Mediterraneo
+    add_osm_feature(key = 'highway') %>%
+    osmdata_sf()

@@ -9,7 +9,10 @@ library(ggplot2)
 library(exactextractr)
 library(sf)
 library(raster)
- 
+library(osmdata)
+library(mapview)
+
+
 islands <- readOGR(paste0("isole_medit_0.5Ha.gpkg"))
 
 write.csv(islands_csv, file = "islands_csv.csv")
@@ -52,11 +55,17 @@ street_lenght <- str_is_inters_df %>%
   summarise (total_lenght = sum(Shape_Leng, na.rm = TRUE))
 
 # OSM
+q <- getbb("islands")
+x <- opq(bbox = st_bbox_by_feature(islands_sf)) %>% # Mediterraneo
+    add_osm_feature(key = 'highway') 
+osmdata_xml (x, filename="street.osm")
 
-x <- opq(bbox = c(30.9, 36, 36.5, 46.2)) %>% # Mediterraneo
-    add_osm_feature(key = 'highway') %>%
-    osmdata_sf() # non va perchè troppo granade 
-  
-x <- opq("Madrid") %>% # Mediterraneo
-    add_osm_feature(key = 'highway') %>%
-    osmdata_sf()
+# extract the geometries first
+st_bbox_by_feature = function(x) {
+  x = st_geometry(x)
+  f <- function(y) st_as_sfc(st_bbox(y))
+  do.call("c", lapply(x, f))
+}
+
+islands_sf <- st_as_sf(islands) # only with sf objects
+mapview(islands_sf) + st_bbox_by_feature(islands_sf)

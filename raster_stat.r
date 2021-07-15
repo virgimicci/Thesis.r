@@ -69,3 +69,4 @@ st_bbox_by_feature = function(x) {
 
 islands_sf <- st_as_sf(islands) # only with sf objects
 mapview(islands_sf) + st_bbox_by_feature(islands_sf)
+

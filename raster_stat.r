@@ -15,7 +15,6 @@ library(mapview)
 
 islands <- readOGR(paste0("isole_medit_0.5Ha.gpkg"))
 
-write.csv(islands_csv, file = "islands_csv.csv")
 
 # CHELSA, ha un extent div da chelsa per questo non li ho potuti mettere nello stesso stack
 wdchelsa <- setwd("C:/Users/micci/Documents/Thesis/chelsa")
@@ -60,10 +59,13 @@ x <- opq(bbox = st_bbox_by_feature(islands_sf)) %>% # Mediterraneo
     add_osm_feature(key = 'highway') 
 osmdata_xml (x, filename="street.osm")
 
+x <- opq(bbox = islands_sf) %>% # Mediterraneo
+    add_osm_feature(key = 'highway') 
+osmdata_xml (x, filename="street.osm")
 # extract the geometries first
 st_bbox_by_feature = function(x) {
-  x = st_geometry(x)
-  f <- function(y) st_as_sfc(st_bbox(y))
+  x = st_geometry(islands_sf)
+  f <- function(y) st_as_sfc(st_bbox(islands_sf))
   do.call("c", lapply(x, f))
 }
 

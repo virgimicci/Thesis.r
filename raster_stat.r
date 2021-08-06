@@ -28,6 +28,14 @@ list_raster<-list.files(pattern=".tif")
 import_raster <- lapply(list_raster, raster)
 stack_raster<- stack(import_raster)
 
+# Anthropic impact 
+wd <- setwd("C:/Users/micci/Documents/Thesis")
+HM <- raster("lulc-human-modification-terrestrial-systems_mollweide.tif")
+anthrome <- raster("anthro2_a2000.tif")
+HF <- raster("HFP2009")
+anthropic_impact <- list(HM,anthrome,HF)
+anthropic_impact <- stack(anthropic_impact)
+
 # exactextractr
 island_csv <- cbind(islands, exact_extract(stack_raster, islands,
                              c("min","max", "mean", "median", "stdev",
@@ -52,23 +60,4 @@ str_is_inters_df <- as.data.frame(str_is_inters)
 street_lenght <- str_is_inters_df %>% 
   group_by(fid_2) %>%
   summarise (total_lenght = sum(Shape_Leng, na.rm = TRUE))
-
-# OSM
-q <- getbb("islands")
-x <- opq(bbox = st_bbox_by_feature(islands_sf)) %>% # Mediterraneo
-    add_osm_feature(key = 'highway') 
-osmdata_xml (x, filename="street.osm")
-
-x <- opq(bbox = islands_sf) %>% # Mediterraneo
-    add_osm_feature(key = 'highway') 
-osmdata_xml (x, filename="street.osm")
-# extract the geometries first
-st_bbox_by_feature = function(x) {
-  x = st_geometry(islands_sf)
-  f <- function(y) st_as_sfc(st_bbox(islands_sf))
-  do.call("c", lapply(x, f))
-}
-
-islands_sf <- st_as_sf(islands) # only with sf objects
-mapview(islands_sf) + st_bbox_by_feature(islands_sf)
 

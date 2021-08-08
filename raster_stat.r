@@ -28,14 +28,6 @@ list_raster<-list.files(pattern=".tif")
 import_raster <- lapply(list_raster, raster)
 stack_raster<- stack(import_raster)
 
-# Anthropic impact 
-wd <- setwd("C:/Users/micci/Documents/Thesis")
-HM <- raster("lulc-human-modification-terrestrial-systems_mollweide.tif")
-anthrome <- raster("anthro2_a2000.tif")
-HF <- raster("HFP2009")
-anthropic_impact <- list(HM,anthrome,HF)
-anthropic_impact <- stack(anthropic_impact)
-
 # exactextractr
 island_csv <- cbind(islands, exact_extract(stack_raster, islands,
                              c("min","max", "mean", "median", "stdev",
@@ -60,4 +52,20 @@ str_is_inters_df <- as.data.frame(str_is_inters)
 street_lenght <- str_is_inters_df %>% 
   group_by(fid_2) %>%
   summarise (total_lenght = sum(Shape_Leng, na.rm = TRUE))
+
+# OSM
+islands_sf <- st_as_sf(islands) # only with sf objects
+islands_sf <- st_transform(islands_sf, 4326)
+
+bbox_to_string(islands_sf) # mi da solo il primo
+
+osm <- function (x) {opq() %>% # Mediterraneo
+    add_osm_feature(key = 'highway') }
+apply(islands,1,osm)
+osmdata_xml (x, filename="street.osm")
+
+ x <- opq(c(29.7, -5.7, 45.9 , 36.4)) %>% # Mediterraneo
+     add_osm_feature(key = 'highway') 
+
+mapview(islands_sf) + st_bbox_by_feature(islands_sf)
 

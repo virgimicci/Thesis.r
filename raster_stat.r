@@ -23,7 +23,7 @@ import_chelsa <- lapply(list_chelsa, raster)
 stack_chelsa<- stack(import_chelsa)
 
 # DEM e vari
-wd <- setwd("C:/Users/micci/Documents/Thesis")
+wddem <- setwd("C:/Users/micci/Documents/Thesis/dem_and_co")
 list_raster<-list.files(pattern=".tif")
 import_raster <- lapply(list_raster, raster)
 stack_raster<- stack(import_raster)
